@@ -1,8 +1,6 @@
 module.exports = function(hoodie) {
   
-  console.log("TEST!!!!!");
-  
-  hoodie.task.on('add:direct-message', handleNewMessage);
+  hoodie.task.on('add:directmessage', handleNewMessage);
 
   function handleNewMessage(originDb, message) {
     var recipient = message.to;
@@ -13,10 +11,17 @@ module.exports = function(hoodie) {
       };
 
       var targetDb = "user/" + user.ownerHash;
+      
+      delete message._id;
+      delete message._rev;
+      
       hoodie.database(targetDb).add('message', message, addMessageCallback);
+      console.log(targetDb, message);
       hoodie.task.success(originDb, message, handleError);
     });
   };
-
+  
+  function handleError(error) {};
+  
   function addMessageCallback(error, object) {};
 };

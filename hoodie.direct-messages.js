@@ -3,10 +3,10 @@ Hoodie.extend(function(hoodie) {
   function send( messageData ) {
     var defer = hoodie.defer();
 
-    hoodie.task.start('direct-message', messageData)
+    hoodie.task.start('directmessage', messageData)
     .done( function(messageTask) {
-      hoodie.task.on('remove:direct-message:'+messageTask.id, defer.resolve);
-      hoodie.task.on('error:direct-message:'+messageTask.id, defer.reject);
+      hoodie.task.on('remove:directmessage:'+messageTask.id, defer.resolve);
+      hoodie.task.on('error:directmessage:'+messageTask.id, defer.reject);
     })
     .fail( defer.reject );
 
@@ -23,12 +23,12 @@ Hoodie.extend(function(hoodie) {
   }
   
   function on( eventName, callback ) {
-    hoodie.task.on( eventName + ':direct-message', callback);
+    hoodie.task.on( eventName + ':directmessage', callback);
   }
-  console.log("HERE");
+
   hoodie.directMessages = {
     send: send,
     findAll: findAll,
     on: on
   }
-);
+});
